@@ -1,0 +1,33 @@
+package alex.tir.storage.entity;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Table("users")
+public class User {
+    @Id
+    private Long id;
+    private String email;
+    private String password;
+    private Role role;
+    private String firstName;
+    private String lastName;
+    private boolean enabled;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private int diskSpace;
+    private int usedSpace;
+    private String avatar;
+
+    @ToString.Include(name = "password")
+    private String maskPassword() {
+        return "********";
+    }
+}
