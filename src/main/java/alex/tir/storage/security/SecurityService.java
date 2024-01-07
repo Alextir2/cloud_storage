@@ -5,15 +5,19 @@ import alex.tir.storage.exception.AuthException;
 import alex.tir.storage.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
 
+@Component
+@RequiredArgsConstructor
 public class SecurityService {
-    private UserService service;
-    private PasswordEncoder passwordEncoder;
+    private final UserService service;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -21,9 +25,6 @@ public class SecurityService {
     private Integer expirationInSeconds;
     @Value("${jwt.issuer}")
     private String issuer;
-
-    public SecurityService() {
-    }
 
 
     private TokenDetails generateToken(User user) {
@@ -35,7 +36,7 @@ public class SecurityService {
     }
 
     private TokenDetails generateToken(Map<String, Object> claims, String subject) {
-        Long expirationTimeInMillis = expirationInSeconds * 1000L;
+        var expirationTimeInMillis = expirationInSeconds * 1000L;
         Date expirationDate = new Date(new Date().getTime() + expirationTimeInMillis);
 
         return generateToken(expirationDate, claims, subject);

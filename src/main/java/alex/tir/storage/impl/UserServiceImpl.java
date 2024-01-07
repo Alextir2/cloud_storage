@@ -7,14 +7,16 @@ import alex.tir.storage.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 @Slf4j
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    UserRepository userRepo;
-    PasswordEncoder passwordEncoder;
+    private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public Mono<User> getByEmail(String email) {
         return userRepo.findByEmail(email);

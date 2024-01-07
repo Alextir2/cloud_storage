@@ -13,7 +13,7 @@ import alex.tir.storage.entity.User;
 @RequiredArgsConstructor
 public class AuthenticationManager implements ReactiveAuthenticationManager {
 
-    private UserService service;
+    private final UserService service;
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {

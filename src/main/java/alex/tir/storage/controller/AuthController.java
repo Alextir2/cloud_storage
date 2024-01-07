@@ -18,16 +18,18 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
-    private SecurityService securityService;
-    private UserService userService;
 
-    private UserMapper userMapper;
+    private final SecurityService securityService;
+
+    private final UserService userService;
+
+    private final UserMapper userMapper;
 
     @PostMapping("/register")
     public Mono<UserDTO> register(@RequestBody UserDTO dto) {
-        User user = userMapper.map(dto);
+        User user = userMapper.convertToUser(dto);
         return userService.registerUser(user)
-                .map(userMapper::map);
+                .map(userMapper::convertToUserDTO);
     }
 
     @PostMapping("/login")
@@ -48,6 +50,6 @@ public class AuthController {
         CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
 
         return userService.getUserById(customPrincipal.getId())
-                .map(userMapper::map);
+                .map(userMapper::convertToUserDTO);
     }
 }
