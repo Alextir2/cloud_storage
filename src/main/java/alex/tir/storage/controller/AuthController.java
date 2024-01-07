@@ -9,7 +9,6 @@ import alex.tir.storage.security.CustomPrincipal;
 import alex.tir.storage.security.SecurityService;
 import alex.tir.storage.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -27,9 +26,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public Mono<UserDTO> register(@RequestBody UserDTO dto) {
-        User user = userMapper.convertToUser(dto);
+        User user = userMapper.map(dto);
         return userService.registerUser(user)
-                .map(userMapper::convertToUserDTO);
+                .map(userMapper::map);
     }
 
     @PostMapping("/login")
@@ -50,6 +49,6 @@ public class AuthController {
         CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
 
         return userService.getUserById(customPrincipal.getId())
-                .map(userMapper::convertToUserDTO);
+                .map(userMapper::map);
     }
 }

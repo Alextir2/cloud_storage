@@ -31,12 +31,12 @@ public class UserServiceImpl implements UserService {
     public Mono<User> registerUser(User user) {
         return userRepo.save(
                 user.toBuilder()
-                        .password(passwordEncoder.encode(user.getPassword()))
-                        .role(Role.USER)
-                        .enabled(true)
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
-                        .build()
+                    .password(passwordEncoder.encode(user.getPassword()))
+                    .role(Role.USER)
+                    .enabled(true)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build()
         ).doOnSuccess(u -> {
             log.info("In registerUser - user: {} created", u);
         });
